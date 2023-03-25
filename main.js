@@ -114,10 +114,10 @@ const myGameArea = {
     const enemyH = 80;
 
     function randX() {
-      return Math.floor(Math.random() * (w - enemyW + 1) - enemyW);
+      return Math.floor(Math.random() * (w - enemyW + 1));
     }
     function randY() {
-      return Math.floor(Math.random() * (h - enemyH + 1) - enemyH);
+      return Math.floor(Math.random() * (h - enemyH + 1));
     }
 
     this.enemies.push(
@@ -148,6 +148,8 @@ const myGameArea = {
     ctx.drawImage(imgGameOver, 400, 100, 400, 400);
     document.body.setAttribute("class", "re-started");
     document.querySelector("h1").innerHTML = "RESTART";
+    level = 0;
+    discussion = 0;
   },
   //
   // METHODE POUR DETECTER LA RENCONTRE EN LE PLAYER ET LE MAITRE
@@ -269,10 +271,10 @@ document.addEventListener("keydown", function (e) {
         const enemyH = 80;
 
         function randX() {
-          return Math.floor(Math.random() * (1200 - enemyW + 1) - enemyW);
+          return Math.floor(Math.random() * (1200 - enemyW + 1));
         }
         function randY() {
-          return Math.floor(Math.random() * (600 - enemyH + 1) - enemyH);
+          return Math.floor(Math.random() * (600 - enemyH + 1));
         }
         myGameArea.enemies[0].x = randX();
         myGameArea.enemies[1].x = randX();
@@ -346,10 +348,10 @@ document.addEventListener("keydown", function (e) {
         const enemyH = 80;
 
         function randX() {
-          return Math.floor(Math.random() * (1200 - enemyW + 1) - enemyW);
+          return Math.floor(Math.random() * (1200 - enemyW + 1));
         }
         function randY() {
-          return Math.floor(Math.random() * (600 - enemyH + 1) - enemyH);
+          return Math.floor(Math.random() * (600 - enemyH + 1));
         }
         myGameArea.enemies[0].x = randX();
         myGameArea.enemies[1].x = randX();
