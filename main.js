@@ -41,12 +41,25 @@ let riddle = [
     question4: "Dans Death Note, qui est Ryuk ?",
     choices4: "1. Un dieu de la mort 2. un ange déchu 3. un esprit vengeur",
   },
+  {
+    question1: "Quelle est la quête d'Albator",
+    choices1: "1. L'honneur 2. La liberté 3. la paix",
+    question2:
+      "Comment s'appelle le personnage principal de Fullmetal Alchemist qui a sa conscience dans une armure ?",
+    choices2: "1. Roy 2. Elric 3. Alphonse",
+    question3:
+      "Dans Assassination Classroom, quel est le pourcentage de la lune qui est détruit ?",
+    choices3: "1. 70% 2. 40% 3. 25%",
+    question4: "Dans Kuroko No Basket, quelle est le point fort de Kagami ?",
+    choices4: "1. Ses dribbles 2. Sa vitesse 3. Sa détente",
+  },
 ];
 
 document.querySelector("h1").onclick = () => {
   console.log("Let's go !");
   myGameArea.start();
   myGameArea.clear();
+  $question.innerHTML = "";
 };
 
 const myGameArea = {
@@ -133,6 +146,8 @@ const myGameArea = {
     const imgGameOver = new Image();
     imgGameOver.src = "images/GameOver.webp";
     ctx.drawImage(imgGameOver, 400, 100, 400, 400);
+    document.body.setAttribute("class", "re-started");
+    document.querySelector("h1").innerHTML = "RESTART";
   },
   //
   // METHODE POUR DETECTER LA RENCONTRE EN LE PLAYER ET LE MAITRE
@@ -144,10 +159,6 @@ const myGameArea = {
       this.player.top() > this.master.bottom() ||
       this.player.bottom() < this.master.top()
     );
-  },
-  timerEnd: function () {
-    console.log("FAIS VIIIITE !!!!");
-    myGameArea.clear();
   },
   //
   // METHODE POUR PASSER AU NIVEAU SUIVANT
@@ -185,13 +196,11 @@ function updateGameArea() {
       enemy.speedX = 0;
       enemy.speedY = 0;
     }
-    return (discussion = 1);
   }
 
   myGameArea.enemies.forEach((enemy) => {
     if (myGameArea.player.crashwith(enemy)) {
       myGameArea.stop();
-
       console.log("GAME OVER !!");
     }
   });
@@ -199,58 +208,190 @@ function updateGameArea() {
 
 document.addEventListener("keydown", function (e) {
   if (myGameArea.meetTheMaster()) {
+    //
     $question.innerHTML =
       "Tu as réussit à survivre. Bravo !<br> Voyons voir si tout cela n'a pas été en vain.<br> Appuye sur A si tu es prêt.";
-    if (e.key === "a") {
-      if ((discussion = 1)) {
+    console.log("welcome");
+
+    if (discussion === 0) {
+      discussion = 1;
+    } else if (discussion === 1) {
+      if (e.key === "a") {
+        myGameArea.timer();
         $question.innerHTML = riddle[`${level}`].question1;
         $choices.innerHTML = riddle[`${level}`].choices1;
-
-        setTimeout(myGameArea.timerEnd(), 5000);
-
-        // console.log("aaaa");
-        return (discussion += 1);
+        console.log("q1");
       }
-    }
-  }
-  //
-  // REPONDRE A LA 1ERE QUESTION
-  //
-  if (myGameArea.meetTheMaster()) {
-    if ((discussion = 2)) {
+
       if (e.key === "1") {
         $question.innerHTML =
-          "Félicitation !<br> Le niveau suivant sera moins aisé.<br> Appuye sur A si tu t'en sens capable.";
+          "Félicitation !<br> Le niveau suivant sera moins aisé.<br> Appuye sur N si tu t'en sens capable.";
         $choices.innerHTML = "";
-        return (discussion += 1);
-        // console.log("BONNE REPONSE !!");
-      } else if (e.key === "2") {
+        console.log("q1 gagne");
+      } else if (e.key === "2" || e.key === "3") {
+        // game over
         myGameArea.stop();
-        document.body.setAttribute("class", "re-started");
-        document.querySelector("h1").innerHTML = "RESTART";
         $question.innerHTML =
           "Tu as échoué.<br> Voilà ce qui arrive lorsqu'on s'emballe...";
         $choices.innerHTML = "";
-        // console.log("MAUVAISE REPONSE !!");
-      } else if (e.key === "3") {
-        myGameArea.stop();
-        document.body.setAttribute("class", "re-started");
-        document.querySelector("h1").innerHTML = "RESTART";
-        $question.innerHTML =
-          "Tu as échoué.<br> Voilà ce qui arrive lorsqu'on s'emballe...";
-        $choices.innerHTML = "";
-        // console.log("MAUVAISE REPONSE !!");
+        console.log("nope");
+
+        discussion = -99;
+
+        // afficher un msg de fail
+        // add class restarted
       }
-    }
-  }
-  //
-  // ACCEDER AU NIVEAU 1
-  //
-  if (myGameArea.meetTheMaster()) {
-    if ((discussion = 3)) {
-      if (e.key === "a") {
-        console.log("NIVEAU SUIVANT !");
-        return (level += 1);
+
+      if (e.key === "n") {
+        console.log("next level");
+        level = 1;
+        $question.innerHTML = "";
+        discussion = 2;
+
+        // redefinir la pos du player
+        const playerW = 60;
+        const playerH = 90;
+        const playerRandX = Math.floor(
+          Math.random() * (myGameArea.canvas.width / 4)
+        );
+        const playerRandY = Math.floor(
+          Math.random() * (myGameArea.canvas.height - playerH)
+        );
+        myGameArea.player.x = playerRandX;
+        myGameArea.player.y = playerRandY;
+
+        // maj la speed des enemies
+        myGameArea.enemies[0].speedX = 4;
+        myGameArea.enemies[1].speedX = 4;
+        myGameArea.enemies[0].speedY = 4;
+        myGameArea.enemies[1].speedY = 4;
+        // maj la pos des enemies
+        const enemyW = 90;
+        const enemyH = 80;
+
+        function randX() {
+          return Math.floor(Math.random() * (1200 - enemyW + 1) - enemyW);
+        }
+        function randY() {
+          return Math.floor(Math.random() * (600 - enemyH + 1) - enemyH);
+        }
+        myGameArea.enemies[0].x = randX();
+        myGameArea.enemies[1].x = randX();
+        myGameArea.enemies[0].y = randY();
+        myGameArea.enemies[1].y = randY();
+
+        // rajouter un enemi
+        myGameArea.enemies.push(
+          new Component(randX(), randY(), "images/monster3.png", enemyW, enemyH)
+        );
+        myGameArea.enemies[2].x = randX();
+        myGameArea.enemies[2].y = randY();
+
+        myGameArea.enemies[2].speedX = 4;
+        myGameArea.enemies[2].speedY = 4;
+      }
+      //a
+    } else if (discussion === 2) {
+      console.log("welcome2");
+      $question.innerHTML =
+        "Tu as réussit à survivre. Bravo !<br> Voyons voir si tout cela n'a pas été en vain.<br> Appuye sur S si tu es prêt.";
+      if (e.key === "s") {
+        console.log("q2");
+        $question.innerHTML = riddle[`${level}`].question1;
+        $choices.innerHTML = riddle[`${level}`].choices1;
+      }
+      if (e.key === "3") {
+        $question.innerHTML =
+          "Je suis impressioné !<br> Es-tu prêt pour le niveau suivant.<br> Appuye sur O si tu t'en sens capable.";
+        $choices.innerHTML = "";
+        console.log("q2 gagne");
+      } else if (e.key === "1" || e.key === "2") {
+        // game over
+        myGameArea.stop();
+        $question.innerHTML =
+          "Je t'avais prévenu.<br> Voilà ce qui arrive lorsqu'on s'emballe...";
+        $choices.innerHTML = "";
+        level = 0;
+        console.log("nope");
+
+        discussion = -99;
+      }
+      if (e.key === "o") {
+        console.log("next level2");
+        level = 2;
+        $question.innerHTML = "";
+        discussion = 3;
+
+        // redefinir la pos du player
+        const playerW = 60;
+        const playerH = 90;
+        const playerRandX = Math.floor(
+          Math.random() * (myGameArea.canvas.width / 4)
+        );
+        const playerRandY = Math.floor(
+          Math.random() * (myGameArea.canvas.height - playerH)
+        );
+        myGameArea.player.x = playerRandX;
+        myGameArea.player.y = playerRandY;
+
+        // maj la speed des enemies
+        myGameArea.enemies[0].speedX = 5;
+        myGameArea.enemies[1].speedX = 5;
+        myGameArea.enemies[2].speedX = 5;
+        myGameArea.enemies[0].speedY = 5;
+        myGameArea.enemies[1].speedY = 5;
+        myGameArea.enemies[2].speedY = 5;
+
+        // maj la pos des enemies
+        const enemyW = 90;
+        const enemyH = 80;
+
+        function randX() {
+          return Math.floor(Math.random() * (1200 - enemyW + 1) - enemyW);
+        }
+        function randY() {
+          return Math.floor(Math.random() * (600 - enemyH + 1) - enemyH);
+        }
+        myGameArea.enemies[0].x = randX();
+        myGameArea.enemies[1].x = randX();
+        myGameArea.enemies[2].x = randX();
+        myGameArea.enemies[0].y = randY();
+        myGameArea.enemies[1].y = randY();
+        myGameArea.enemies[2].y = randY();
+
+        // rajouter un enemi
+        myGameArea.enemies.push(
+          new Component(randX(), randY(), "images/monster4.png", enemyW, enemyH)
+        );
+        myGameArea.enemies[3].x = randX();
+        myGameArea.enemies[3].y = randY();
+
+        myGameArea.enemies[3].speedX = 5;
+        myGameArea.enemies[3].speedY = 5;
+      }
+    } else if (discussion === 3) {
+      console.log("welcome3");
+      $question.innerHTML =
+        "Tu as réussit à survivre. Bravo !<br> Voyons voir si tout cela n'a pas été en vain.<br> Appuye sur D si tu es prêt.";
+      if (e.key === "d") {
+        console.log("q3");
+        $question.innerHTML = riddle[`${level}`].question3;
+        $choices.innerHTML = riddle[`${level}`].choices3;
+      }
+      if (e.key === "1") {
+        $question.innerHTML =
+          "Tu es digne d'être mon successeur. Te voilà désormais maitre à ton tour";
+        $choices.innerHTML = "";
+        console.log("q3 gagne");
+      } else if (e.key === "2" || e.key === "3") {
+        // game over
+        myGameArea.stop();
+        $question.innerHTML = "Tu n'es pas encore prêt.";
+        $choices.innerHTML = "";
+        level = 0;
+        console.log("nope");
+
+        discussion = -99;
       }
     }
   }
