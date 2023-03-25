@@ -217,7 +217,6 @@ document.addEventListener("keydown", function (e) {
       discussion = 1;
     } else if (discussion === 1) {
       if (e.key === "a") {
-        myGameArea.timer();
         $question.innerHTML = riddle[`${level}`].question1;
         $choices.innerHTML = riddle[`${level}`].choices1;
         console.log("q1");
