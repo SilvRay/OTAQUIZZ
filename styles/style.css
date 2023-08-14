@@ -210,3 +210,10 @@ span {
     width: 70%;
     text-align: center;
 }
+
+.timer {
+    display: none;
+    font-family: "Delicious Handrawn", cursive;
+    font-size: 44px;
+    text-align: center;
+}

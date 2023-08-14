@@ -16,6 +16,7 @@
         <span></span>
         <div class="question"></div>
         <div class="choices"></div>
+        <div class="timer">5</div>
     </header>
     <main>
         <div class="instructions">
@@ -24,9 +25,12 @@
             <p class="p3" class="p1">Enemies will get in your way</p>
             <p class="p4">One last thing... You better answer quick !</p>
         </div>
-        <canvas id="canvas" width="1200" height="600"></canvas>
+        <canvas id="canvas" width="1200" height="600">
+            <img class="master" src="./images/Game Master.png" alt="image of the game master" />
+        </canvas>
     </main>
     
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
     <script src="main.js"></script>
     <script src="component.js"></script>
 </body>
