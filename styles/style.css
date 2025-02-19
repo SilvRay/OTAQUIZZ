@@ -1,219 +1,196 @@
-*, 
-*::after, *::before {
-    box-sizing: border-box;
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    animation: change 30s infinite ease-in-out;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-image: url("../images/start.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  font-family: "Boogaloo", serif;
 }
 
-@keyframes change {
-    0%
-    {
-        background-image: url('../images/ArlongPark.webp');
-    }
-    20%
-    {
-        background-image: url('../images/HxH.jpg');
-    }
-    40%
-    {
-        background-image: url('../images/KimetsuNoYaiba.webp');
-    }
-    60%
-    {
-        background-image: url('../images/SNK.png');
-    }
-    100%
-    {
-        background-image: url('../images/DragonBall.jpg');
-    }
+.overlay {
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
 }
 
 header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    height: 150px;
-    padding: 20px;
-    background-size: cover;
-}
-
-
-
-.start-btn {
-    border: thick double rgba(29, 24, 24, 0.8);
-    font-family: 'Tilt Warp', cursive;
-    position: relative;
-    display: block;
-    width: 200px;
-    padding: 15px 25px;
-    border-radius: 30px;
-    background-color: #e1b12c;
-    color: rgba(29, 24, 24, 0.8);
-    cursor: pointer;
-    box-shadow: 0px 9px 11px -2px #000000;
-}
-
-.start-btn:hover {
-    background-color: #B8860B;
-    color:black;
-    border: thick double black;
-    transform: scaleX(1.1);
-    transition: all 0.6s;
-}
-
-body.started .start-btn {
-    display: none;
-}
-
-body.re-started .start-btn {
-    display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 150px;
+  padding: 20px;
+  position: relative;
 }
 
 h1 {
-    margin: auto;
-    display: block;
-    border-color:#e1b12c;
-    text-transform: uppercase;
+  font-size: 5rem;
+  margin: 0;
 }
 
+.start-btn {
+  background-color: #fff;
+  border-radius: 40rem;
+  border-style: none;
+  box-shadow: #adcfff 0 -12px 6px inset;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.24px;
+  outline: none;
+  padding: 0.75rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  /* width: 10rem; */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.start-btn:hover {
+  background-color: #ffc229;
+  box-shadow: #ff6314 0 -6px 8px inset;
+  transform: scale(1.125);
+}
+
+.start-btn:active {
+  transform: scale(1.025);
+}
+
+body.re-started .start-btn {
+  display: block;
+}
+
+header .level {
+  display: none;
+}
+
+header .level {
+  margin: auto;
+  font-size: 1.5rem;
+  font-family: "Tilt Warp", cursive;
+  color: black;
+  background-color: #e1b12c;
+  padding: 10px;
+  position: absolute;
+  left: 3rem;
+}
 
 main {
-    flex: 1;
-    padding-left: 200px ;
-    padding-right: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 1;
+  padding-left: 200px;
+  padding-right: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: start;
 }
 
 .instructions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    font-family: 'Tilt Warp', cursive;
-    color: #e1b12c;
-    position: absolute;
-    top: 35%;
-    padding: 15px 0;
-}
-
-body.started .instructions {
-    display: none;
+  font-size: 2rem;
+  text-align: center;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem 2rem;
+  border-radius: 16px;
 }
 
 body.re-started .instructions {
-    display: none;
-}
-
-p {
-    margin-block: 0;
-    width: 80%;
-    text-align: center;
-    background-color: rgba(0,0,0,0.8);
-    letter-spacing: 1px;
-}
-
-.p2 {
-    margin-top: 30px;
-    color: red;
-    text-transform: uppercase;
-}
-
-.p4 {
-    margin-top: 30px;
+  display: none;
 }
 
 #canvas {
-    display:none;
-}
-
-.started #canvas {
-    display: block;
-    background-color: rgba(139, 68, 19, 0.8);
+  display: none;
 }
 
 .re-started #canvas {
-    display: block;
-    background-color: rgba(139, 68, 19, 0.8);
-
-}
-
-span {
-    display: none;
-}
-
-.level span {
-    display: block;
-    margin: auto;
-    font-size: 2em;
-    font-family: 'Tilt Warp', cursive;
-    color: black;
-    background-color:#e1b12c;
-    padding: 10px 20px;
+  display: block;
+  background-color: rgba(139, 68, 19, 0.8);
 }
 
 .question {
-    background-color: white;
-    font-size: 25px;
-    font-weight: bold;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5px;
-    width: 70%;
-    text-align: center;
-    position: relative;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  width: 70%;
+  text-align: center;
 }
 
 .choices {
-    background-color: white;
-    font-size: 25px;
-    font-weight: bold;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5px;
-    width: 70%;
-    text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  width: 70%;
+  text-align: center;
+}
+
+.choices .btn-answer {
+  background-color: #e1b12c;
+  font-size: 1.5rem;
+  padding: 16px;
+  border: none;
+  border-radius: 32px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.choices .btn-answer:hover {
+  background-color: black;
+  color: #e1b12c;
 }
 
 .riddle .question {
-    background-color: white;
-    font-size: 25px;
-    font-weight: bold;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5px;
-    width: 70%;
-    text-align: center;
-    position: relative;
+  background-color: white;
+  font-size: 25px;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  width: 70%;
+  text-align: center;
+  position: relative;
 }
 
 .riddle .choices {
-    background-color: white;
-    font-size: 25px;
-    font-weight: bold;
-    margin-left: auto;
-    margin-right: auto;
-    width: 70%;
-    text-align: center;
+  background-color: white;
+  font-size: 25px;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  text-align: center;
 }
 
 .timer {
-    display: none;
-    font-family: "Delicious Handrawn", cursive;
-    font-size: 44px;
-    text-align: center;
+  display: none;
+  font-family: "Delicious Handrawn", cursive;
+  font-size: 44px;
+  text-align: center;
+  position: absolute;
+  right: 3rem;
 }

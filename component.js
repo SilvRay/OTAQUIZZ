@@ -17,23 +17,22 @@ class Component {
 
     // limite la position du player d'aller trop a droite
     if (this.x > myGameArea.canvas.width - this.width) {
-      console.log("stooooop à droite !!");
-      this.x = myGameArea.canvas.width - 5 - this.width;
+      this.x = myGameArea.canvas.width - this.width;
     }
     // limite la position du player d'aller trop a gauche
     if (this.x < 0) {
-      this.x = 5;
+      this.x = 0;
     }
 
     this.y += this.speedY;
 
     // limite la position du player d'aller trop en bas
     if (this.y > myGameArea.canvas.height - this.height) {
-      this.y = myGameArea.canvas.height - 5 - this.height;
+      this.y = myGameArea.canvas.height - this.height;
     }
     // limite la position du player d'aller trop en haut
     if (this.y < 0) {
-      this.y = 5;
+      this.y = 0;
     }
   }
   draw() {
@@ -61,6 +60,19 @@ class Component {
       this.speedY = -this.speedY;
     }
   }
+  //
+  // METHODE POUR DETECTER LA RENCONTRE ENTRE LE PLAYER ET LE MAITRE
+  //
+  isMeetingTheMaster(master) {
+    if (
+      this.x + this.width > master.x &&
+      this.y < master.y + master.height &&
+      this.y + this.height > master.y &&
+      this.x < master.x + master.width
+    ) {
+      return true;
+    }
+  }
   left() {
     return this.x;
   }
@@ -83,26 +95,5 @@ class Component {
       this.top() > enemy.bottom() ||
       this.bottom() < enemy.top()
     );
-  }
-  avoidTheMaster(master) {
-    // enemy.x += enemy.speedX;
-    // Empeche l'ennemi de toucher le maitre par la droite
-    if (this.x < master.x + master.width) {
-      this.speedX = -this.speedX;
-    }
-    // Empeche l'ennemi de toucher le maitre par la gauche
-    if (this.x + this.width > master.x) {
-      this.speedX = -this.speedX;
-    }
-
-    // enemy.y += enemy.speedY;
-    // Empeche l'ennemi de toucher le maitre par le haut
-    if (this.y + this.height > master.x) {
-      this.speedY = -this.speedY;
-    }
-    // Empeche l'ennemi de toucher le maitre par le bas
-    if (this.y < master.y + master.height) {
-      this.speedY = -this.speedY;
-    }
   }
 }

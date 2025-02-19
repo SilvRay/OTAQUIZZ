@@ -6,66 +6,124 @@ let ctx = $canvas.getContext("2d");
 const $question = document.querySelector(".question");
 const $choices = document.querySelector(".choices");
 const $timer = document.querySelector(".timer");
-let count = 5;
-let enemies = [
-  "images/monster.png",
-  "images/monster2.png",
-  "images/monster3.png",
-  "images/monster4.png",
-];
+
 let enemyRushActive = false;
 
 let discussion = 0;
 let level = 0;
 
-let riddle = [
+let questions = [
   [
-    "A quel village ninja appartient Naruto Uzumaki ?",
-
-    "Dans One Piece, comment appelle-t-on les fruits légendaires qui donnent des pouvoirs aux personnages ?",
-
-    "De quelle île originaire Gon Freecs, le personnage principal de Hunter x Hunter ?",
-    "Dans l'Attaque des titans, quel Titan Eren possède-t-il ?",
+    {
+      question:
+        "Dans One Piece, comment appelle-t-on les fruits légendaires qui donnent des pouvoirs aux personnages ?",
+      answers: [
+        { text: "1. Les fruits du diable", correct: false },
+        { text: "2. Les fruits démoniaque", correct: false },
+        { text: "3. Les fruits du démon", correct: true },
+      ],
+    },
+    {
+      question: "A quel village ninja appartient Naruto Uzumaki ?",
+      answers: [
+        { text: "1. Konoha", correct: true },
+        { text: "2. Suna", correct: false },
+        { text: "3. Kumo", correct: false },
+      ],
+    },
+    {
+      question:
+        "De quelle île originaire Gon Freecs, le personnage principal de Hunter x Hunter ?",
+      answers: [
+        { text: "1. L'île de la méduse", correct: false },
+        { text: "2. L'île de la baleine", correct: true },
+        { text: "3. L'île de de la tortue", correct: false },
+      ],
+    },
+    {
+      question: "Dans l'Attaque des titans, quel Titan Eren possède-t-il ?",
+      answers: [
+        { text: "1. Le titan Assaillant", correct: true },
+        { text: "2. Le titan Cuirassé", correct: false },
+        { text: "3. Le titan Bestial", correct: false },
+      ],
+    },
   ],
   [
-    "Dans My Hero Academia, quel est le pourcentage de la population qui possède des super-pouvoirs ?",
-    "Comment se nomme le sabre d'un Shinigami dans Bleach ?",
-
-    "Dans Seven Deadly Sins, quel personnage représente l'Orgueil des Sept Péchés capitaux ?",
-    "Dans Death Note, qui est Ryuk ?",
+    {
+      question:
+        "Dans My Hero Academia, quel est le pourcentage de la population qui possède des super-pouvoirs ?",
+      answers: [
+        { text: "1. 50%", correct: false },
+        { text: "2. 70%", correct: false },
+        { text: "3. 80%", correct: true },
+      ],
+    },
+    {
+      question: "Comment se nomme le sabre d'un Shinigami dans Bleach ?",
+      answers: [
+        { text: "1. Zanketo", correct: false },
+        { text: "2. Zanpakuto", correct: true },
+        { text: "3. Zanquino", correct: false },
+      ],
+    },
+    {
+      question:
+        "Dans Seven Deadly Sins, quel personnage représente l'Orgueil des Sept Péchés capitaux ?",
+      answers: [
+        { text: "1. Meliodas", correct: false },
+        { text: "2. Escanor", correct: true },
+        { text: "3. King", correct: false },
+      ],
+    },
+    {
+      question: "Dans Death Note, qui est Ryuk ?",
+      answers: [
+        { text: "1. Un dieu de la mort", correct: true },
+        { text: "2. Un ange déchu", correct: false },
+        { text: "3. Un esprit vengeur", correct: false },
+      ],
+    },
   ],
   [
-    "Quelle est la quête d'Albator",
-    "Comment s'appelle le personnage principal de Fullmetal Alchemist qui a sa conscience dans une armure ?",
-    "Dans Assassination Classroom, quel est le pourcentage de la lune qui est détruit ?",
-    "Dans Kuroko No Basket, quelle est le point fort de Kagami ?",
+    {
+      question: "Quelle est la quête d'Albator",
+      answers: [
+        { text: "1. L'honneur", correct: false },
+        { text: "2. La liberté", correct: false },
+        { text: "3. La paix", correct: true },
+      ],
+    },
+    {
+      question:
+        "Comment s'appelle le personnage principal de Fullmetal Alchemist qui a sa conscience dans une armure ?",
+      answers: [
+        { text: "1. Roy", correct: false },
+        { text: "2. Elric", correct: false },
+        { text: "3. Alphonse", correct: true },
+      ],
+    },
+    {
+      question:
+        "Dans Assassination Classroom, quel est le pourcentage de la lune qui est détruit ?",
+      answers: [
+        { text: "1. 70%", correct: true },
+        { text: "2. 40%", correct: false },
+        { text: "3. 25%", correct: false },
+      ],
+    },
+    {
+      question: "Dans Kuroko No Basket, quelle est le point fort de Kagami ?",
+      answers: [
+        { text: "1. Ses dribbles", correct: false },
+        { text: "2. Sa vitesse", correct: false },
+        { text: "3. Sa détente", correct: true },
+      ],
+    },
   ],
 ];
-let answers = [
-  [
-    "1. Konoha 2. Suna 3. Kumo",
 
-    "1. Les fruits du diable 2. Les fruits démoniaque 3. Les fruits du démon",
-
-    "1. L'île de la méduse 2. L'île de la baleine 3. L'île de de la tortue",
-    "1. Le titan Assaillant 2. Le titan Cuirassé 3. Le titan Bestial",
-  ],
-  [
-    "1. 50% 2. 70% 3. 80%",
-    "1. Zanketo 2. Zanpakuto 3. Zanquino",
-    "1. Meliodas 2. Escanor 3. King",
-    "1. Un dieu de la mort 2. un ange déchu 3. un esprit vengeur",
-  ],
-  [
-    "1. L'honneur 2. La liberté 3. la paix",
-    "1. Roy 2. Elric 3. Alphonse",
-    "1. 70% 2. 40% 3. 25%",
-    "1. Ses dribbles 2. Sa vitesse 3. Sa détente",
-  ],
-];
-
-document.querySelector("h1").onclick = () => {
-  console.log("Let's go !");
+$startBtn.onclick = () => {
   myGameArea.start();
   myGameArea.clear();
   $question.innerHTML = "";
@@ -75,11 +133,16 @@ const myGameArea = {
   canvas: $canvas,
   level: 0,
   start: function () {
+    $startBtn.style.display = "none";
+
     const w = 1200;
     const h = 600;
     this.canvas.width = w;
     this.canvas.height = h;
     this.interval = setInterval(updateGameArea, 16);
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
 
     //
     // INSTANCE PLAYER
@@ -99,9 +162,6 @@ const myGameArea = {
       playerH,
       true
     );
-    // Ajouter les écouteurs d'événements pour les touches de déplacement
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
 
     //
     // INSTANCE MASTER
@@ -129,17 +189,10 @@ const myGameArea = {
     const enemyW = 90;
     const enemyH = 80;
 
-    function randX() {
-      return Math.floor(Math.random() * (1111 - 600) + 600);
-    }
-    function randY() {
-      return Math.floor(Math.random() * (h - enemyH + 1));
-    }
-
     this.enemies.push(
       new Component(
-        randX(),
-        randY(),
+        Math.floor(Math.random() * (1111 - 600) + 600),
+        Math.floor(Math.random() * (h - enemyH + 1)),
         "images/monster.png",
         "enemy",
         enemyW,
@@ -148,8 +201,8 @@ const myGameArea = {
     );
     this.enemies.push(
       new Component(
-        randX(),
-        randY(),
+        Math.floor(Math.random() * (1111 - 600) + 600),
+        Math.floor(Math.random() * (h - enemyH + 1)),
         "images/monster2.png",
         "enemy",
         enemyW,
@@ -167,53 +220,56 @@ const myGameArea = {
   // METHODE POUR CLEAR LE CANVAS ET AFFICHER LE NIVEAU
   //
   clear: function () {
+    console.log("clear");
+
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    document.body.setAttribute("class", "started level");
     document.querySelector("span").innerHTML = `Niveau ${level}`;
+    document.querySelector("h1").style.display = "none";
+    document.querySelector(".level").style.display = "block";
+    document.querySelector(".instructions").style.display = "none";
+    $canvas.style.display = "block";
+    $canvas.style.backgroundColor = "rgba(139, 68, 19, 0.8)";
   },
-  stop: function () {
-    clearInterval(myGameArea.interval);
-    const imgGameOver = new Image();
-    imgGameOver.src = "./images/GameOver.webp";
-    ctx.drawImage(imgGameOver, 400, 100, 400, 400);
-    document.body.setAttribute("class", "re-started");
-    document.querySelector("h1").innerHTML = "RESTART";
+  gameOver: function () {
+    console.log("GAME OVER");
+    clearInterval(this.interval);
+    $question.innerHTML =
+      "Tu as échoué.<br> Voilà ce qui arrive lorsqu'on s'emballe...";
+    $choices.innerHTML = "";
+    $startBtn.innerHTML = "Restart";
+    $startBtn.style.display = "inline-block";
+    level = 0;
+    discussion = 0;
+  },
+  winning: function () {
+    console.log("I won !");
+    clearInterval(this.interval);
+    $question.innerHTML =
+      "Tu es digne d'être mon successeur. Te voilà désormais maitre à ton tour";
+    $choices.innerHTML = "";
+    $startBtn.innerHTML = "Play again";
+    $startBtn.style.display = "inline-block";
     level = 0;
     discussion = 0;
   },
   //
-  // METHODE POUR DETECTER LA RENCONTRE EN LE PLAYER ET LE MAITRE
-  //
-  meetTheMaster: function () {
-    return !(
-      this.player.left() > this.master.right() ||
-      this.player.right() < this.master.left() ||
-      this.player.top() > this.master.bottom() ||
-      this.player.bottom() < this.master.top()
-    );
-  },
-  //
   // METHODE POUR PASSER AU NIVEAU SUIVANT
   //
-  nextLevel: function () {
+  nextLevel: function (num) {
     console.log("Tu as bien répondu !");
+    const enemyW = 90;
+    const enemyH = 80;
     this.enemies.push(
-      new Component(randX(), randY(), "images/monster3.png", enemyW, enemyH)
+      new Component(
+        Math.floor(Math.random() * (1111 - 600) + 600),
+        Math.floor(Math.random() * (600 - enemyH + 1)),
+        `images/monster${num}.png`,
+        "enemy",
+        enemyW,
+        enemyH
+      )
     );
-    myGameArea.clear();
   },
-  //
-  // METHODE POUR LE TIMER
-  //
-};
-
-//
-// FONCTION POUR LA DISPARITION DU MAÎTRE
-//
-const masterDisparition = () => {
-  console.log("DISPARITION DU MAITRE !");
-
-  gsap.fromTo(".master", { opacity: 1 }, { opacity: 0, duration: 1, delay: 1 });
 };
 
 //
@@ -228,31 +284,16 @@ function updateGameArea() {
   myGameArea.master.draw();
 
   myGameArea.enemies.forEach((enemy) => {
-    // Empeche l'ennemi de toucher le maitre par la droite
-    if (
-      enemy.x + enemy.width > myGameArea.master.x &&
-      enemy.x < myGameArea.master.x + myGameArea.master.width &&
-      enemy.y + enemy.height > myGameArea.master.y &&
-      enemy.y < myGameArea.master.y + myGameArea.master.height
-    ) {
-      // console.log("DO NOT TOUCH THE MASTER !", myGameArea.master);
-
-      enemy.speedX = -enemy.speedX;
-      enemy.speedY = -enemy.speedY;
-    }
-  });
-
-  myGameArea.enemies.forEach((enemy) => {
     if (myGameArea.player.crashwith(enemy)) {
-      myGameArea.stop();
-      enemyRushActive = false;
       // console.log("GAME OVER !!");
+
+      myGameArea.gameOver();
     }
     enemy.move();
     enemy.draw();
   });
 
-  if (myGameArea.meetTheMaster()) {
+  if (myGameArea.player.isMeetingTheMaster(myGameArea.master)) {
     // console.log("enemies=", myGameArea.enemies);
     myGameArea.player.speedX = 0;
     myGameArea.player.speedY = 0;
@@ -264,101 +305,80 @@ function updateGameArea() {
 
     // Supprimer les écouteurs d'événements pour empêcher les mouvements du personnage
     document.removeEventListener("keydown", handleKeyDown);
-    document.removeEventListener("keyup", handleKeyUp);
-  } else {
-    // Mouvement normal du perso quand le joueur n'a pas encore rencontré le maître du jeu
-    myGameArea.player.newPos();
   }
-
-  if (enemyRushActive) {
-    startEnemyRush();
-  }
-}
-
-//
-// Fonction pour mettre en place la vitesse des ennemis afin qu'il se ruent sur le joueur
-//
-function startEnemyRush() {
-  enemyRushActive = true;
-
-  myGameArea.player.speedX = 0;
-  myGameArea.player.speedY = 0;
-
-  myGameArea.enemies.forEach((enemy) => {
-    enemy.speedX = enemy.x > myGameArea.player.x ? -2 : 2; // Se ruer vers le joueur
-    enemy.speedY = enemy.y > myGameArea.player.y ? -2 : 2;
-    enemy.move();
-  });
 }
 
 let timer; // Déclarer le timer en une variable globale
 
 // Démarrer le timer quand y'a besoin
 function startTimer() {
-  count = 5;
+  let count = 5;
   timer = setInterval(function () {
     document.querySelector(".timer").textContent = count;
     count--;
-    if (count === 0) {
+    if (count < 0) {
       clearInterval(timer);
-      startEnemyRush();
       $timer.style.display = "none"; // Cacher l'élément timer à 0
+      myGameArea.gameOver();
     }
   }, 1000);
 }
 
 document.addEventListener("keydown", function (e) {
-  if (myGameArea.meetTheMaster()) {
+  if (myGameArea.player.isMeetingTheMaster(myGameArea.master)) {
     //
     $question.innerHTML =
       "Tu as réussit à survivre. Bravo !<br> Voyons voir si tout cela n'a pas été en vain.<br> Appuye sur A si tu es prêt.";
     console.log("welcome");
 
-    // variable qui permet de choisir une question et ses réponses au hasard
-    let randRiddle = Math.floor(Math.random() * riddle[`${level}`].length);
-
     if (discussion === 0) {
       discussion = 1;
     } else if (discussion === 1) {
       if (e.key === "a") {
-        $question.innerHTML = riddle[`${level}`][1];
-        $choices.innerHTML = answers[`${level}`][1];
-
-        $timer.style.display = "block";
-        startTimer();
         console.log("q1");
-      }
+        // $timer.style.display = "block";
+        // startTimer();
 
-      if (e.key === "3") {
-        $question.innerHTML =
-          "Félicitation !<br> Le niveau suivant sera moins aisé.<br> Appuye sur N si tu t'en sens capable.";
-        // Clear le timer
-        clearInterval(timer);
-        $timer.style.display = "none"; // Cacher l'élément timer
+        let randIndex = Math.floor(Math.random() * questions[level].length);
+        $question.innerHTML = questions[level][randIndex].question;
 
-        $choices.innerHTML = "";
-        console.log("q1 gagne");
-      } else if (e.key === "1" || e.key === "2") {
-        // Clear le timer
-        clearInterval(timer);
-        $timer.style.display = "none"; // Cacher l'élément timer
+        questions[level][randIndex].answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerHTML = answer.text;
+          button.classList.add("btn-answer");
+          $choices.appendChild(button);
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", (e) => {
+            selectedBtn = e.target;
+            console.log("selected btn ", selectedBtn);
 
-        // game over
-        masterDisparition();
-        startEnemyRush();
-        $question.innerHTML =
-          "Tu as échoué.<br> Voilà ce qui arrive lorsqu'on s'emballe...";
-        $choices.innerHTML = "";
-        console.log("nope");
+            if (selectedBtn.dataset.correct) {
+              console.log("Bonne réponse");
 
-        discussion = -99;
+              $question.innerHTML =
+                "Félicitation !<br> Le niveau suivant sera moins aisé.<br> Appuye sur N si tu t'en sens capable.";
+              // Clear le timer
+              clearInterval(timer);
+              $timer.style.display = "none"; // Cacher l'élément timer
+              // Vider les réponses
+              $choices.innerHTML = "";
+            } else {
+              console.log("Mauvaise réponse");
+              // Clear le timer
+              clearInterval(timer);
+              $timer.style.display = "none"; // Cacher l'élément timer
 
-        // afficher un msg de fail
-        // add class restarted
+              // game over
+              myGameArea.gameOver();
+            }
+          });
+        });
       }
 
       if (e.key === "n") {
-        console.log("next level");
+        console.log("Next level");
         document.addEventListener("keydown", handleKeyDown);
         document.addEventListener("keyup", handleKeyUp);
 
@@ -367,7 +387,6 @@ document.addEventListener("keydown", function (e) {
         discussion = 2;
 
         // redefinir la pos du player
-        const playerW = 60;
         const playerH = 90;
         const playerRandX = Math.floor(
           Math.random() * (myGameArea.canvas.width / 4)
@@ -378,34 +397,14 @@ document.addEventListener("keydown", function (e) {
         myGameArea.player.x = playerRandX;
         myGameArea.player.y = playerRandY;
 
+        // rajouter un enemi
+        myGameArea.nextLevel(3);
         // maj la speed des enemies
         myGameArea.enemies[0].speedX = 4;
         myGameArea.enemies[1].speedX = 4;
+        myGameArea.enemies[2].speedX = 4;
         myGameArea.enemies[0].speedY = 4;
         myGameArea.enemies[1].speedY = 4;
-        // maj la pos des enemies
-        const enemyW = 90;
-        const enemyH = 80;
-
-        function randX() {
-          return Math.floor(Math.random() * (1111 - 600) + 600);
-        }
-        function randY() {
-          return Math.floor(Math.random() * (600 - enemyH + 1));
-        }
-        myGameArea.enemies[0].x = randX();
-        myGameArea.enemies[1].x = randX();
-        myGameArea.enemies[0].y = randY();
-        myGameArea.enemies[1].y = randY();
-
-        // rajouter un enemi
-        myGameArea.enemies.push(
-          new Component(randX(), randY(), "images/monster3.png", enemyW, enemyH)
-        );
-        myGameArea.enemies[2].x = randX();
-        myGameArea.enemies[2].y = randY();
-
-        myGameArea.enemies[2].speedX = 4;
         myGameArea.enemies[2].speedY = 4;
       }
       //a
@@ -415,36 +414,49 @@ document.addEventListener("keydown", function (e) {
         "Tu as réussit à survivre. Bravo !<br> Voyons voir si tout cela n'a pas été en vain.<br> Appuye sur S si tu es prêt.";
       if (e.key === "s") {
         console.log("q2");
-
         $timer.style.display = "block";
         startTimer();
-        $question.innerHTML = riddle[`${level}`][0];
-        $choices.innerHTML = answers[`${level}`][0];
+
+        let randIndex = Math.floor(Math.random() * questions[level].length);
+        $question.innerHTML = questions[level][randIndex].question;
+
+        questions[level][randIndex].answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerHTML = answer.text;
+          button.classList.add("btn-answer");
+          $choices.appendChild(button);
+          // Assigner la bonne réponse au bon bouton
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", (e) => {
+            selectedBtn = e.target;
+            console.log("selected btn ", selectedBtn);
+
+            // Vérifier si la réponse sélectionnée est la bonne
+            if (selectedBtn.dataset.correct) {
+              console.log("Bonne réponse");
+
+              $question.innerHTML =
+                "Je suis impressioné !<br> Es-tu prêt pour le niveau suivant.<br> Appuye sur O si tu t'en sens capable.";
+              // Clear le timer
+              clearInterval(timer);
+              $timer.style.display = "none"; // Cacher l'élément timer
+              // Vider les réponses
+              $choices.innerHTML = "";
+            } else {
+              console.log("Mauvaise réponse");
+              // Clear le timer
+              clearInterval(timer);
+              $timer.style.display = "none"; // Cacher l'élément timer
+
+              // game over
+              myGameArea.gameOver();
+            }
+          });
+        });
       }
-      if (e.key === "3") {
-        // Clear le timer
-        clearInterval(timer);
-        $timer.style.display = "none"; // Cacher l'élément timer
 
-        $question.innerHTML =
-          "Je suis impressioné !<br> Es-tu prêt pour le niveau suivant.<br> Appuye sur O si tu t'en sens capable.";
-        $choices.innerHTML = "";
-        console.log("q2 gagne");
-      } else if (e.key === "1" || e.key === "2") {
-        // game over
-        masterDisparition();
-        startEnemyRush();
-
-        $question.innerHTML =
-          "Je t'avais prévenu.<br> Voilà ce qui arrive lorsqu'on s'emballe...";
-        $choices.innerHTML = "";
-        level = 0;
-        document.addEventListener("keydown", handleKeyDown);
-        document.addEventListener("keyup", handleKeyUp);
-        console.log("nope");
-
-        discussion = -99;
-      }
       if (e.key === "o") {
         console.log("next level2");
         document.addEventListener("keydown", handleKeyDown);
@@ -455,7 +467,6 @@ document.addEventListener("keydown", function (e) {
         discussion = 3;
 
         // redefinir la pos du player
-        const playerW = 60;
         const playerH = 90;
         const playerRandX = Math.floor(
           Math.random() * (myGameArea.canvas.width / 4)
@@ -466,39 +477,16 @@ document.addEventListener("keydown", function (e) {
         myGameArea.player.x = playerRandX;
         myGameArea.player.y = playerRandY;
 
+        // rajouter un enemi
+        myGameArea.nextLevel(4);
         // maj la speed des enemies
         myGameArea.enemies[0].speedX = 5;
         myGameArea.enemies[1].speedX = 5;
         myGameArea.enemies[2].speedX = 5;
+        myGameArea.enemies[3].speedX = 5;
         myGameArea.enemies[0].speedY = 5;
         myGameArea.enemies[1].speedY = 5;
         myGameArea.enemies[2].speedY = 5;
-
-        // maj la pos des enemies
-        const enemyW = 90;
-        const enemyH = 80;
-
-        function randX() {
-          return Math.floor(Math.random() * (1111 - 600) + 600);
-        }
-        function randY() {
-          return Math.floor(Math.random() * (600 - enemyH + 1));
-        }
-        myGameArea.enemies[0].x = randX();
-        myGameArea.enemies[1].x = randX();
-        myGameArea.enemies[2].x = randX();
-        myGameArea.enemies[0].y = randY();
-        myGameArea.enemies[1].y = randY();
-        myGameArea.enemies[2].y = randY();
-
-        // rajouter un enemi
-        myGameArea.enemies.push(
-          new Component(randX(), randY(), "images/monster4.png", enemyW, enemyH)
-        );
-        myGameArea.enemies[3].x = randX();
-        myGameArea.enemies[3].y = randY();
-
-        myGameArea.enemies[3].speedX = 5;
         myGameArea.enemies[3].speedY = 5;
       }
     } else if (discussion === 3) {
@@ -511,32 +499,43 @@ document.addEventListener("keydown", function (e) {
         $timer.style.display = "block";
         startTimer();
 
-        $question.innerHTML = riddle[`${level}`][2];
-        $choices.innerHTML = answers[`${level}`][2];
-      }
-      if (e.key === "1") {
-        // Clear le timer
-        clearInterval(timer);
-        $timer.style.display = "none"; // Cacher l'élément timer
+        let randIndex = Math.floor(Math.random() * questions[level].length);
+        $question.innerHTML = questions[level][randIndex].question;
 
-        $question.innerHTML =
-          "Tu es digne d'être mon successeur. Te voilà désormais maitre à ton tour";
-        $choices.innerHTML = "";
-        console.log("q3 gagne");
-      } else if (e.key === "2" || e.key === "3") {
-        // Clear le timer
-        clearInterval(timer);
-        $timer.style.display = "none"; // Cacher l'élément timer
+        questions[level][randIndex].answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerHTML = answer.text;
+          button.classList.add("btn-answer");
+          $choices.appendChild(button);
+          // Assigner la bonne réponse au bon bouton
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", (e) => {
+            selectedBtn = e.target;
+            console.log("selected btn ", selectedBtn);
 
-        // game over
-        startEnemyRush();
+            // Vérifier si la réponse sélectionnée est la bonne
+            if (selectedBtn.dataset.correct) {
+              console.log("Bonne réponse");
 
-        $question.innerHTML = "Tu n'es pas encore prêt.";
-        $choices.innerHTML = "";
-        level = 0;
-        console.log("nope");
+              // Clear le timer
+              clearInterval(timer);
+              $timer.style.display = "none"; // Cacher l'élément timer
 
-        discussion = -99;
+              // Winning
+              myGameArea.winning();
+            } else {
+              console.log("Mauvaise réponse");
+              // Clear le timer
+              clearInterval(timer);
+              $timer.style.display = "none"; // Cacher l'élément timer
+
+              // game over
+              myGameArea.gameOver();
+            }
+          });
+        });
       }
     }
   }
@@ -546,6 +545,8 @@ document.addEventListener("keydown", handleKeyDown);
 document.addEventListener("keyup", handleKeyUp);
 
 function handleKeyDown(event) {
+  // console.log("pressing key");
+
   switch (event.keyCode) {
     case 38: // upArrow
       // console.log("uuup!!!");
