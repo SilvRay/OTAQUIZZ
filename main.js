@@ -336,8 +336,8 @@ document.addEventListener("keydown", function (e) {
     } else if (discussion === 1) {
       if (e.key === "a") {
         console.log("q1");
-        // $timer.style.display = "block";
-        // startTimer();
+        $timer.style.display = "block";
+        startTimer();
 
         let randIndex = Math.floor(Math.random() * questions[level].length);
         $question.innerHTML = questions[level][randIndex].question;
